@@ -9,7 +9,9 @@ const devConfig = {
     entry: './src/index.js',
     mode: 'development',
     devServer: {
-        contentBase: path.join(__dirname, 'dist'),
+        contentBase: __dirname + "/public/",
+        compress: true,
+        host: '0.0.0.0',
         port: 8080,
         historyApiFallback: {
             index: 'index.html',
@@ -19,10 +21,14 @@ const devConfig = {
         new ModuleFederationPlugin({
             name: 'container',
             remotes: {
-                authentication: 'authentication@http://localhost:8081/remoteEntry.js',
+                // authentication: 'authentication@http://localhost:8081/remoteEntry.js',
                 marketing: 'marketing@http://localhost:8083/remoteEntry.js',
             },
-            shared: packageJson.dependencies,
+            shared: {
+                ...packageJson.dependencies,
+                'react': { singleton: true },
+                'react-dom': { singleton: true },
+            }
         }),
     ]
 }
