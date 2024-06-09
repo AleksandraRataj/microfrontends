@@ -3,7 +3,8 @@ import {BrowserRouter} from "react-router-dom";
 
 import AuthenticationApp from "./components/AuthenticationApp";
 import MarketingApp from "./components/MarketingApp";
-import Layout from './components/Layout';
+import Header from './components/Header';
+import Footer from './components/Footer';
 
 import {StylesProvider, createGenerateClassName} from "@material-ui/core";
 
@@ -15,10 +16,10 @@ export default () => {
     return (
         <StylesProvider generateClassName>
             <BrowserRouter>
-                <Layout>
-                    {/*<AuthenticationApp/>*/}
-                    <MarketingApp/>
-                </Layout>
+                <Header/>
+                {/*<AuthenticationApp/>*/}
+                <MarketingApp/>
+                <Footer/>
             </BrowserRouter>
         </StylesProvider>
     );
