@@ -1,81 +1,100 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap'
+import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 
-import SearchBox from './SearchBox'
-import { logout } from '../actions/userActions'
+import AppBar from '@material-ui/core/AppBar';
+import Button from '@material-ui/core/Button';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
 
-const Header = () => {
-	const dispatch = useDispatch()
-	const userLogin = useSelector((state) => state.userLogin);
-	const { userInfo } = userLogin
+import { makeStyles } from '@material-ui/core/styles';
 
-	const logoutHandler = () => {
-		dispatch(logout())
-	}
+const useStyles = makeStyles((theme) => ({
+  '@global': {
+    ul: {
+      margin: 0,
+      padding: 0,
+      listStyle: 'none',
+    },
+    a: {
+      textDecoration: 'none',
+    },
+  },
+  appBar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  toolbar: {
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  link: {
+    margin: theme.spacing(1, 1.5),
+  },
+  heroContent: {
+    padding: theme.spacing(8, 0, 6),
+  },
+  cardHeader: {
+    backgroundColor:
+      theme.palette.type === 'light'
+        ? theme.palette.grey[200]
+        : theme.palette.grey[700],
+  },
+  cardPricing: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'baseline',
+    marginBottom: theme.spacing(2),
+  },
+  footer: {
+    borderTop: `1px solid ${theme.palette.divider}`,
+    marginTop: theme.spacing(8),
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
+    [theme.breakpoints.up('sm')]: {
+      paddingTop: theme.spacing(6),
+      paddingBottom: theme.spacing(6),
+    },
+  },
+}));
 
-	return (
-		<header>
-			<Navbar
-				className='text-uppercase'
-				bg='primary'
-				variant='dark'
-				expand='lg'
-				collapseOnSelect
-			>
-				<Container>
-					<LinkContainer to='/'>
-						<Navbar.Brand>Monolith E-Commerce</Navbar.Brand>
-					</LinkContainer>
-					<Navbar.Toggle aria-controls='basic-navbar-nav' />
-					<Navbar.Collapse id='basic-navbar-nav'>
-						<Route render={({ history }) => <SearchBox history={history} />} />
-						<Nav className='ml-auto'>
-							{/* Cart */}
-							<LinkContainer to='/cart'>
-								<Nav.Link>
-									<i className='fas fa-shopping-cart'></i> Cart
-								</Nav.Link>
-							</LinkContainer>
-							{userInfo ? (
-								<NavDropdown title={userInfo.name} id='username'>
-									<LinkContainer to='/profile'>
-										<NavDropdown.Item>Profile</NavDropdown.Item>
-									</LinkContainer>
-									{/* Logout */}
-									<NavDropdown.Item onClick={logoutHandler}>
-										Logout
-									</NavDropdown.Item>
-								</NavDropdown>
-							) : (
-								// Login
-								<LinkContainer to='/login'>
-									<Nav.Link>
-										<i className='fas fa-user'></i> Sign In
-									</Nav.Link>
-								</LinkContainer>
-							)}
-							{userInfo && userInfo.isAdmin && (
-								<NavDropdown title='Admin' id='adminmenu'>
-									<LinkContainer to='/admin/userlist'>
-										<NavDropdown.Item>Users</NavDropdown.Item>
-									</LinkContainer>
-									<LinkContainer to='/admin/productlist'>
-										<NavDropdown.Item>Products</NavDropdown.Item>
-									</LinkContainer>
-									<LinkContainer to='/admin/orderlist'>
-										<NavDropdown.Item>Orders</NavDropdown.Item>
-									</LinkContainer>
-								</NavDropdown>
-							)}
-						</Nav>
-					</Navbar.Collapse>
-				</Container>
-			</Navbar>
-		</header>
-	)
+export default function Header({ signedIn, onSignOut }) {
+  const classes = useStyles();
+
+  const onClick = () => {
+    if (signedIn && onSignOut) {
+      onSignOut();
+    }
+  };
+
+  return (
+    <React.Fragment>
+      <AppBar
+        position="static"
+        color="default"
+        elevation={0}
+        className={classes.appBar}
+      >
+        <Toolbar className={classes.toolbar}>
+          <Typography
+            variant="h6"
+            color="inherit"
+            noWrap
+            component={RouterLink}
+            to="/"
+          >
+            App
+          </Typography>
+          <Button
+            color="primary"
+            variant="outlined"
+            className={classes.link}
+            component={RouterLink}
+            to={signedIn ? '/' : '/auth/signin'}
+            onClick={onClick}
+          >
+            {signedIn ? 'Logout' : 'Login'}
+          </Button>
+        </Toolbar>
+      </AppBar>
+    </React.Fragment>
+  );
 }
-
-export default Header;
