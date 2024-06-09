@@ -222,7 +222,6 @@ export default function Pricing() {
           ))}
         </Grid>
       </Container>
-      {/* Footer */}
       <Container maxWidth="md" component="footer" className={classes.footer}>
         <Grid container spacing={4} justifyContent="space-evenly">
           {footers.map((footer) => (

@@ -1,6 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 
-import {mount} from 'marketing/MarketingApp';
+import {mount} from 'authentication/AuthenticationApp';
 
 export default () => {
     const ref = useRef(null);
