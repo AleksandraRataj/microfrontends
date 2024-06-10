@@ -6,6 +6,9 @@ const packageJson = require('../package.json');
 
 const devConfig = {
     mode: 'development',
+    output: {
+        publicPath: 'http://localhost:8082/',
+    },
     devServer: {
         port: 8082,
         historyApiFallback: {
@@ -19,7 +22,11 @@ const devConfig = {
             exposes: {
                 './DashboardApp' : './src/bootstrap'
             },
-            shared: packageJson.dependencies,
+            shared: {
+                ...packageJson.dependencies,
+                'react': { singleton: true, requiredVersion: '^17.0.2' },
+                'react-dom': { singleton: true, requiredVersion: '^17.0.2' },
+            }
         }),
     ]
 }

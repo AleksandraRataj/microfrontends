@@ -1,20 +1,28 @@
 import React from 'react';
-import {BrowserRouter, Route, Switch} from "react-router-dom";
+import {Router, Route, Switch} from "react-router-dom";
 
-import {StylesProvider} from "@material-ui/core";
+import {createGenerateClassName, StylesProvider} from "@material-ui/core";
 
-const AuthComponent = () => <div>
-    <h1>Authentication App!</h1>
-</div>
+import Signup from './components/Signup'
+import Signin from './components/Signin'
 
-export default () => {
-    return <div>
-        <StylesProvider>
-            <BrowserRouter>
+const generateClassName = createGenerateClassName({
+    productionPrefix: 'authentication',
+});
+
+export default ({history, onSignIn}) => {
+    return (
+        <Router history={history}>
+            <StylesProvider generateClassName={generateClassName}>
                 <Switch>
-                    <Route exact path='/' component={AuthComponent}/>
+                    <Route path='/authentication/signup'>
+                        <Signup onSignIn={onSignIn}/>
+                    </Route>
+                    <Route path='/authentication/signin'>
+                        <Signin onSignIn={onSignIn}/>
+                    </Route>
                 </Switch>
-            </BrowserRouter>
-        </StylesProvider>
-    </div>
+            </StylesProvider>
+        </Router>
+    );
 }
