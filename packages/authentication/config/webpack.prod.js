@@ -2,7 +2,8 @@ const { merge } = require('webpack-merge');
 const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
 const commonConfig = require('./webpack.common');
-const packageJson = require('../package.json');
+
+const DOMAIN = process.env.PRODUCTION_DOMAIN;
 
 const prodConfig = {
     mode: 'production',
@@ -12,12 +13,9 @@ const prodConfig = {
     },
     plugins: [
         new ModuleFederationPlugin({
-            name: 'authentication',
-            filename: 'remoteEntry.js',
-            exposes: {
-                './AuthenticationApp' : './src/bootstrap'
+            remotes: {
+                store: `store@${DOMAIN}/marketing/latest/remoteEntry.js`,
             },
-            shared: packageJson.dependencies,
         }),
     ]
 }

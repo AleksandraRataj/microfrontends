@@ -1,4 +1,3 @@
-// Footer.js
 import React from 'react';
 
 import Container from '@material-ui/core/Container'
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'block',
     },
     copyright: {
-        marginTop: theme.spacing(4),
+        paddingTop: theme.spacing(4),
         textAlign: 'center',
         color: theme.palette.text.secondary,
     },
@@ -104,7 +103,7 @@ const Footer = () => {
                 <Typography variant="body2" className={classes.copyright}>
                     {'© '}
                     {new Date().getFullYear()}
-                    {' Your Company. All rights reserved.'}
+                    {' Aleksandra Rataj Master Thesis. All rights reserved.'}
                 </Typography>
             </Container>
         </footer>

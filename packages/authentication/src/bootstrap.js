@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {createMemoryHistory, createBrowserHistory} from 'history';
 
+import {StoreProvider} from 'store/StoreApp';
+
 import App from './App';
 
 const mount = (element, {initialPath, onNavigate, onSignIn, defaultHistory }) => {
@@ -14,10 +16,12 @@ const mount = (element, {initialPath, onNavigate, onSignIn, defaultHistory }) =>
     }
 
     ReactDOM.render(
-        <App
-            history={history}
-            onSignIn={onSignIn}
-        />,
+        <StoreProvider>
+            <App
+                history={history}
+                onSignIn={onSignIn}
+            />
+        </StoreProvider>,
         element
     );
 

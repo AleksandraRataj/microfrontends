@@ -1,8 +1,5 @@
 const { merge } = require('webpack-merge');
-const path = require('path');
-const ModuleFederationPlugin = require('webpack/lib/container/ModuleFederationPlugin');
 
-const packageJson = require('../package.json');
 const commonConfig = require('./webpack.common');
 
 const devConfig = {
@@ -16,20 +13,6 @@ const devConfig = {
             index: '/index.html',
         },
     },
-    plugins: [
-        new ModuleFederationPlugin({
-            name: 'container',
-            remotes: {
-                authentication: 'authentication@http://localhost:8081/remoteEntry.js',
-                marketing: 'marketing@http://localhost:8083/remoteEntry.js',
-            },
-            shared: {
-                ...packageJson.dependencies,
-                'react': { singleton: true, requiredVersion: '^17.0.2' },
-                'react-dom': { singleton: true, requiredVersion: '^17.0.2' },
-            }
-        }),
-    ]
 }
 
 module.exports = merge(commonConfig, devConfig);

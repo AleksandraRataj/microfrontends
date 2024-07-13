@@ -17,7 +17,6 @@ export default ({onSignIn}) => {
                     history.push(nextPathname);
                 }
             },
-            onSignIn,
         });
 
         history.listen(onContainerNavigate);
