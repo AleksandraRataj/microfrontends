@@ -2,7 +2,6 @@ import React from "react";
 import { Provider, useSelector } from "react-redux";
 import { applyMiddleware, combineReducers, configureStore } from "@reduxjs/toolkit";
 import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
 
 import {
     deleteUser,
@@ -128,8 +127,7 @@ const store = configureStore({
         thunk,
     }),
     preloadedState: initialState,
-    initialState: initialState,
-    devTools: composeWithDevTools(applyMiddleware()),
+    initialState: initialState
 });
 
 const persistor = persistStore(store);
