@@ -5,10 +5,9 @@ import {createGenerateClassName, StylesProvider} from "@material-ui/core";
 import {useStore} from 'store/StoreApp';
 
 import UserListPage from "./pages/UserListPage";
-import ProductListPage from "./pages/ProductListPage";
+import AdminProductListPage from "./pages/AdminProductListPage";
 import UserEditPage from "./pages/UserEditPage";
 import OrderListPage from "./pages/OrderListPage";
-import ProductEditPage from "./pages/ProductEditPage";
 
 const generateClassName = createGenerateClassName({
     productionPrefix: 'admin',
@@ -16,7 +15,17 @@ const generateClassName = createGenerateClassName({
 
 export default ({history}) => {
     const {
-        state,
+        auth,
+        userList,
+        userDelete,
+        userDetails,
+        userUpdate,
+        productList,
+        productDelete,
+        productCreate,
+        productUpdate,
+        productDetails,
+        orderList,
         listUsers,
         deleteUser,
         getUserDetails,
@@ -28,30 +37,15 @@ export default ({history}) => {
         updateProduct,
         listOrders
     } = useStore();
-    const {
-        userLogin,
-        userList,
-        userDelete,
-        userDetails,
-        userUpdate,
-        productList,
-        productDelete,
-        productCreate,
-        productUpdate,
-        productDetails,
-        orderList
-    } = state;
-
-    console.log(history.location)
 
     return (
         <Router history={history}>
             <StylesProvider generateClassName={generateClassName}>
                 <Switch>
-                    <Route exact path='/admin/userlist' render={(props) => (
+                    <Route path='/admin/userlist' render={(props) => (
                         <UserListPage
                             history={props.history}
-                            userLogin={userLogin}
+                            userLogin={auth}
                             userList={userList}
                             listUsers={listUsers}
                             userDelete={userDelete}
@@ -59,7 +53,7 @@ export default ({history}) => {
                         />
                     )}
                     />
-                    <Route exact path='/admin/user/:id/edit' render={(props) => (
+                    <Route path='/admin/user/:id/edit' render={(props) => (
                         <UserEditPage
                             match={props.match}
                             history={props.history}
@@ -70,55 +64,28 @@ export default ({history}) => {
                         />
                     )}/>
                     <Route
-                        exact
-                        path='/admin/productlist'
+                        path='/admin/products'
                         render={(props) => (
-                            <ProductListPage
-                                match={props.match}
+                            <AdminProductListPage
                                 history={props.history}
-                                productList={productList}
-                                userLogin={userLogin}
-                                productDelete={productDelete}
-                                productCreate={productCreate}
+                                match={props.match}
+                                state={state}
                                 listProducts={listProducts}
                                 deleteProduct={deleteProduct}
-                                createProduct={createProduct}
+                                productList={productList}
+                                userLogin={auth}
+                                productDelete={productDelete}
                             />
                         )}
                     />
                     <Route
-                        exact
-                        path='/admin/productlist/:pageNumber'
-                        render={(props) => (
-                            <ProductListPage
-                                match={props.match}
-                                history={props.history}
-                                productList={productList}
-                                userLogin={userLogin}
-                                productDelete={productDelete}
-                                productCreate={productCreate}
-                                listProducts={listProducts}
-                                deleteProduct={deleteProduct}
-                                createProduct={createProduct}
-                            />
-                        )}
+                        path='/admin/products/:pageNumber'
+                        component={AdminProductListPage}
                     />
-                    <Route path='/admin/product/:id/edit'
-                           render={(props) => (
-                               <ProductEditPage
-                                   match={props.match}
-                                   history={props.history}
-                                   productDetails={productDetails}
-                                   listProductDetails={listProductDetails}
-                                   productUpdate={productUpdate}
-                                   updateProduct={updateProduct}
-                               />
-                           )}
-                    />
-                    <Route path='/admin/orderlist' component={(prop) => (
+                    <Route path='/admin/orderlist' component={(props) => (
                         <OrderListPage
                             history={props.history}
-                            userLogin={userLogin}
+                            userLogin={auth}
                             orderList={orderList}
                             listOrders={listOrders}
                         />

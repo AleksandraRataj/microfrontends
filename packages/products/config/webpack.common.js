@@ -15,7 +15,24 @@ module.exports = {
                     plugins: ['@babel/plugin-transform-runtime'],
                 }
             }
-        }]
+        },
+            {
+                test: /\.css$/,
+                use: ['style-loader', 'css-loader'],
+            },
+            {
+                test: /\.(woff|woff2|eot|ttf|otf|svg|jpg|jpeg|png|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'assets/',
+                        },
+                    },
+                ],
+            },
+        ]
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -38,6 +55,7 @@ module.exports = {
                 '@mui/material': { singleton: true, requiredVersion: '^5.15.20' },
                 '@mui/icons-material': { singleton: true, requiredVersion: '^5.15.20' },
                 '@emotion/styled': { singleton: true, requiredVersion: '^11.11.5' },
+                '@emotion/react': { singleton: true, requiredVersion: '^11.11.4' }
             },
         }),
     ]

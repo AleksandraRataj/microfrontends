@@ -57,9 +57,13 @@ const UserEditPage = ({
 				{loadingUpdate && <CircularProgress />}
 				{errorUpdate && <Alert severity='error'>{errorUpdate}</Alert>}
 				{loading ? (
-					<CircularProgress />
+					<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+						<CircularProgress />
+					</Box>
 				) : error ? (
-					<Alert severity='error'>{error}</Alert>
+					<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+						<Alert severity="error">{error}</Alert>
+					</Box>
 				) : (
 					<Box component="form" onSubmit={submitHandler} noValidate sx={{ mt: 1 }}>
 						<FormControl margin="normal" fullWidth>

@@ -27,7 +27,7 @@ module.exports = {
                 store: 'store@http://localhost:8084/remoteEntry.js',
                 admin: 'admin@http://localhost:8086/remoteEntry.js',
                 authentication: 'authentication@http://localhost:8081/remoteEntry.js',
-                marketing: 'marketing@http://localhost:8083/remoteEntry.js',
+                cart: 'cart@http://localhost:8083/remoteEntry.js',
                 products: 'products@http://localhost:8085/remoteEntry.js',
             },
             shared: {
@@ -38,6 +38,7 @@ module.exports = {
                 '@mui/material': { singleton: true, requiredVersion: '^5.15.20' },
                 '@mui/icons-material': { singleton: true, requiredVersion: '^5.15.20' },
                 '@emotion/styled': { singleton: true, requiredVersion: '^11.11.5' },
+                '@emotion/react': { singleton: true, requiredVersion: '^11.11.4' }
             },
         }),
     ]

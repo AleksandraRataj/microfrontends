@@ -38,6 +38,7 @@ module.exports = {
                 '@mui/material': { singleton: true, requiredVersion: '^5.15.20' },
                 '@mui/icons-material': { singleton: true, requiredVersion: '^5.15.20' },
                 '@emotion/styled': { singleton: true, requiredVersion: '^11.11.5' },
+                '@emotion/react': { singleton: true, requiredVersion: '^11.11.4' }
             },
         }),
     ]

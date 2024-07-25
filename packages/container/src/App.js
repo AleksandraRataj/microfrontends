@@ -1,18 +1,18 @@
-import React, {lazy, Suspense, useState} from 'react';
+import React, {lazy, Suspense} from 'react';
 import {BrowserRouter, Route, Switch} from "react-router-dom";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
 import {createGenerateClassName, StylesProvider} from "@material-ui/core";
-import { makeStyles } from '@material-ui/core/styles';
-
-import {useStore} from 'store/StoreApp';
+import {makeStyles} from '@material-ui/core/styles';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
 
+import {useStore} from 'store/StoreApp';
+
 const AuthenticationAppLazy = lazy(() => import('./microfrontends/AuthenticationApp'));
 const AdminAppLazy = lazy(() => import('./microfrontends/AdminApp'));
-const MarketingAppLazy = lazy(() => import('./microfrontends/MarketingApp'));
+const CartAppLazy = lazy(() => import('./microfrontends/CartApp'));
 const ProductsAppLazy = lazy(() => import('./microfrontends/ProductsApp'));
 
 const generateClassName = createGenerateClassName({
@@ -26,43 +26,43 @@ const useStyles = makeStyles(() => ({
         },
     },
     layout: {
-        height: '100vh',
-        width: '100%',
         display: 'flex',
         flexDirection: 'column',
+        minHeight: '100vh',
+        width: '100%',
+        overflow: 'hidden',
+        backgroundColor: 'hsla(0,0%,96%,0.5)',
     },
-    content : {
-        minHeight: '100%',
+    content: {
         flexGrow: '1',
+        padding: '100px 0',
     }
 }));
 
-const Loading = () => <Box justifyContent="center" sx={{ display: 'flex' }}>
-    <CircularProgress />
+const Loading = () => <Box justifyContent="center" sx={{display: 'flex'}}>
+    <CircularProgress/>
 </Box>
 
-export default () => {
+export default ({history}) => {
     const styles = useStyles();
-    const {state, logout} = useStore();
 
-    const {userLogin} = state;
+    const {auth, logout} = useStore();
 
     return (
         <BrowserRouter>
             <StylesProvider generateClassName={generateClassName}>
                 <div className={styles.layout}>
                     <Header
-                        userLogin={userLogin}
+                        auth={auth}
                         logout={logout}
                     />
                     <div className={styles.content}>
                         <Suspense fallback={<Loading/>}>
                             <Switch>
-                                <Route path="/admin" component={AdminAppLazy}/>
                                 <Route path="/authentication" component={AuthenticationAppLazy}/>
-                                <Route path="/marketing" component={MarketingAppLazy}/>
-                                <Route path="/products" component={ProductsAppLazy}/>
-                                <Route exact path="/" component={MarketingAppLazy}/>
+                                <Route path="/admin" component={AdminAppLazy}/>
+                                <Route path="/cart" component={CartAppLazy}/>
+                                <Route path="/" component={ProductsAppLazy}/>
                             </Switch>
                         </Suspense>
                     </div>

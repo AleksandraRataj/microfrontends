@@ -12,6 +12,10 @@ const devConfig = {
         historyApiFallback: {
             index: '/index.html',
         },
+        proxy: {
+            '/api': 'http://localhost:3000',
+            '/assets': 'http://localhost:8083',
+        },
     },
 }
 

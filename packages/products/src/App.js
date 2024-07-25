@@ -5,44 +5,94 @@ import {createGenerateClassName, StylesProvider} from "@material-ui/core";
 
 import {useStore} from 'store/StoreApp';
 
-import ProductListScreen from "./pages/ProductListScreen";
+import LandingPage from './pages/LandingPage'
+import ProductPage from "./pages/ProductPage";
+import ProductListPage from "./pages/ProductListPage";
+import ProductCreatePage from './pages/ProductCreatePage';
+import ProductEditPage from "./pages/ProductEditPage";
 
 const generateClassName = createGenerateClassName({
     productionPrefix: 'products',
 });
 
 export default ({history}) => {
-    const {state, listProducts, createProduct, deleteProduct} = useStore();
-    const {productList, userLogin, productDelete, productCreate} = state;
+    const {
+        productList,
+        auth,
+        productDelete,
+        productCreate,
+        productDetails,
+        productUpdate,
+        productTopRated,
+        productReviewCreate,
+        listProducts,
+        createProduct,
+        deleteProduct,
+        listTopProducts,
+        listProductDetails,
+        updateProduct,
+        createProductReview
+    } = useStore();
 
     return (
         <Router history={history}>
             <StylesProvider generateClassName={generateClassName}>
-                <div>dupa</div>
                 <Switch>
+                    <Route exact path='/'>
+                        <LandingPage
+                            productTopRated={productTopRated}
+                            listTopProducts={listTopProducts}
+                        />
+                    </Route>
                     <Route
-                        path='/admin/productlist'
                         exact
+                        path='/products'
                         render={(props) => (
-                            <ProductListScreen
-                                history={history}
+                            <ProductListPage
                                 match={props.match}
-                                state={state}
                                 listProducts={listProducts}
-                                createProduct={createProduct}
-                                deleteProduct={deleteProduct}
                                 productList={productList}
-                                userLogin={userLogin}
-                                productDelete={productDelete}
+                            />
+                        )}
+                    />
+                    <Route
+                        path='/product/:id'
+                        render={(props) => (
+                            <ProductPage
+                                history={props.history}
+                                match={props.match}
+                                listProductDetails={listProductDetails}
+                                createProductReview={createProductReview}
+                                productDetails={productDetails}
+                                userLogin={auth}
+                                productReviewCreate={productReviewCreate}
+                            />
+                        )}
+                    />
+                    <Route
+                        path='/admin/product/create'
+                        render={(props) => (
+                            <ProductCreatePage
+                                history={props.history}
+                                userLogin={auth}
+                                createProduct={createProduct}
                                 productCreate={productCreate}
                             />
                         )}
                     />
-                    {/*<Route*/}
-                    {/*    path='/admin/productlist/:pageNumber'*/}
-                    {/*    component={ProductListScreen}*/}
-                    {/*    exact*/}
-                    {/*/>*/}
+                    <Route
+                        path='/admin/product/:id/edit'
+                        render={(props) => (
+                            <ProductEditPage
+                                match={props.match}
+                                history={props.history}
+                                listProductDetails={listProductDetails}
+                                productDetails={productDetails}
+                                updateProduct={updateProduct}
+                                productUpdate={productUpdate}
+                            />
+                        )}
+                    />
                 </Switch>
             </StylesProvider>
         </Router>

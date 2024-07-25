@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useHistory } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import {
     Container,
     Typography,
@@ -169,7 +168,7 @@ const ProfilePage = ({
                                                 )}
                                             </TableCell>
                                             <TableCell>
-                                                <Button component={Link} to={`/order/${order._id}`} variant="contained" size="small">
+                                                <Button component={Link} to={`/cart/order/${order._id}`} variant="contained" size="small">
                                                     Details
                                                 </Button>
                                             </TableCell>

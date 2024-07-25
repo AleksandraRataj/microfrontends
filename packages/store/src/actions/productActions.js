@@ -107,11 +107,10 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
 	}
 }
 // Actions to create a single product
-export const createProduct = () => async (dispatch, getState) => {
+export const createProduct = (product) => async (dispatch, getState) => {
 	try {
 		dispatch({ type: PRODUCT_CREATE_REQUEST })
 
-		// Get userInfo from userLogin by destructuring
 		const {
 			userLogin: { userInfo },
 		} = getState()
@@ -123,7 +122,7 @@ export const createProduct = () => async (dispatch, getState) => {
 		}
 
 		// Make post request to create a product
-		const { data } = await API.post('/api/products', {}, config)
+		const { data } = await API.post('/api/products', product, config)
 
 		dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data })
 	} catch (error) {
@@ -211,11 +210,11 @@ export const createProductReview = (productId, review) => async (
 		})
 	}
 }
-// Actions to get 3 top rated products
+// Actions to get 10 top rated products
 export const listTopProducts = () => async (dispatch) => {
 	try {
-		dispatch({ type: PRODUCT_TOP_REQUEST })
-		// Make request to get 3 top rated products
+		dispatch({ type: PRODUCT_TOP_REQUEST });
+
 		const { data } = await API.get('/api/products/top')
 
 		dispatch({
@@ -226,8 +225,6 @@ export const listTopProducts = () => async (dispatch) => {
 		dispatch({
 			type: PRODUCT_TOP_FAIL,
 			payload:
-				// Send a custom error message
-				// Else send a generic error message
 				error.response && error.response.data.message
 					? error.response.data.message
 					: error.message,

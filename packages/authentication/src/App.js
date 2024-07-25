@@ -14,8 +14,7 @@ const generateClassName = createGenerateClassName({
 });
 
 export default ({history}) => {
-    const {state, register, login, getUserDetails, updateUserProfile, listMyOrders} = useStore();
-    const {userRegister, userLogin, userDetails, userUpdateProfile, orderListMy} = state;
+    const {userRegister, auth, userDetails, userUpdateProfile, orderListMy, register, login, getUserDetails, updateUserProfile, listMyOrders} = useStore();
 
     return (
         <Router history={history}>
@@ -33,14 +32,14 @@ export default ({history}) => {
                         <LoginPage
                             location={props.location}
                             history={props.history}
-                            userLogin={userLogin}
+                            userLogin={auth}
                             login={login}
                         />
                     )}/>
                     <Route path='/authentication/profile' render={(props) => (
                         <ProfilePage
                             history={props.history}
-                            userLogin={userLogin}
+                            userLogin={auth}
                             userDetails={userDetails}
                             getUserDetails={getUserDetails}
                             userUpdateProfile={userUpdateProfile}

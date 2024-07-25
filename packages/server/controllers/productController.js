@@ -2,9 +2,6 @@ const asyncHandler = require('express-async-handler');
 
 const Product  = require('../models/productModel.js')
 
-// @desc    Fetch all products
-// @route   GET /api/products
-// @access  Public
 const getProducts = asyncHandler(async (req, res) => {
 	const pageSize = 10
 	const page = Number(req.query.pageNumber) || 1
@@ -13,7 +10,7 @@ const getProducts = asyncHandler(async (req, res) => {
 		  {
 				name: {
 					$regex: req.query.keyword,
-					$options: 'i', // case insensitive
+					$options: 'i',
 				},
 		  }
 		: {}
@@ -26,9 +23,7 @@ const getProducts = asyncHandler(async (req, res) => {
 
 	res.json({ products, page, pages: Math.ceil(count / pageSize) })
 })
-// @desc    Fetch single product
-// @route   GET /api/products/:id
-// @access  Public
+
 const getProductById = asyncHandler(async (req, res) => {
 	const product = await Product.findById(req.params.id)
 	// Check if product exists
@@ -39,41 +34,31 @@ const getProductById = asyncHandler(async (req, res) => {
 		throw new Error('Product not found')
 	}
 })
-// @desc    Delete single product
-// @route   DELETE /api/products/:id
-// @access  Private/Admin
+
 const deleteProduct = asyncHandler(async (req, res) => {
 	const product = await Product.findById(req.params.id)
-	// Check if product exists
+
 	if (product) {
-		// Check if this admin created this product
-		// if (req.user._id === product.user._id) {
-		// await product.remove()
-		// res.json({ message: 'Product removed' })
-		// } else {
-		// 	res.status(401)
-		// 	throw new Error('Not authorized. Only creator of product')
-		// }
-		await product.remove()
+		await product.deleteOne()
 		res.json({ message: 'Product removed' })
 	} else {
 		res.status(404)
 		throw new Error('Product not found')
 	}
 })
-// @desc    Create a product
-// @route   POST /api/products
-// @access  Private/Admin
+
 const createProduct = asyncHandler(async (req, res) => {
+	const {name, price, image, category, countInStock, numReviews, description} = req.body
+
 	const product = new Product({
-		name: 'Sample name',
-		price: 0,
+		name: name,
+		price: price,
 		user: req.user._id,
-		image: '/images/sample.jpg',
-		category: 'Sample category',
-		countInStock: 0,
-		numReviews: 0,
-		description: 'Sample description',
+		image: image,
+		category: category,
+		countInStock: countInStock,
+		numReviews: numReviews,
+		description: description,
 	})
 
 	const createdProduct = await product.save()
@@ -153,7 +138,7 @@ const createProductReview = asyncHandler(async (req, res) => {
 // @access  Public
 const getTopProducts = asyncHandler(async (req, res) => {
 	// Find products and sort by rating in ascending order
-	const products = await Product.find({}).sort({ rating: -1 }).limit(3)
+	const products = await Product.find({}).sort({ rating: -1 }).limit(10)
 
 	res.json(products)
 })

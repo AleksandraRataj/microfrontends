@@ -7,8 +7,6 @@ export default () => {
     const ref = useRef(null);
     const history = useHistory();
 
-    console.log(history.location.pathname)
-
     useEffect(() => {
         const {onContainerNavigate} = mount(ref.current, {
             initialPath: history.location.pathname,

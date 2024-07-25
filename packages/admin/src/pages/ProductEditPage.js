@@ -8,7 +8,7 @@ import {
 	Button,
 	Typography,
 	Box,
-	CircularProgress,
+	CircularProgress, Alert,
 } from '@mui/material'
 
 import Message from '../components/Message'
@@ -117,9 +117,13 @@ const ProductEditPage = ({
 				{loadingUpdate && <Loader />}
 				{errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}
 				{loading ? (
-					<Loader />
+					<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+						<CircularProgress />
+					</Box>
 				) : error ? (
-					<Message variant='danger'>{error}</Message>
+					<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+						<Alert severity="error">{error}</Alert>
+					</Box>
 				) : (
 					<Box component='form' onSubmit={submitHandler}>
 						<TextField

@@ -1,7 +1,19 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography, CircularProgress, Alert } from '@mui/material';
+import {
+	Button,
+	Table,
+	TableBody,
+	TableCell,
+	TableContainer,
+	TableHead,
+	TableRow,
+	Typography,
+	CircularProgress,
+	Alert,
+	Box
+} from '@mui/material';
 import { Cancel as CancelIcon } from '@mui/icons-material';
 
 const OrderListPage = ({
@@ -30,9 +42,13 @@ const OrderListPage = ({
 				Orders
 			</Typography>
 			{loading ? (
-				<CircularProgress />
+				<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+					<CircularProgress />
+				</Box>
 			) : error ? (
-				<Alert severity="error">{error}</Alert>
+				<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+					<Alert severity="error">{error}</Alert>
+				</Box>
 			) : (
 				<TableContainer>
 					<Table>
