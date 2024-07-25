@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'packages'
 defaults:
   run:
     working-directory: packages/server
