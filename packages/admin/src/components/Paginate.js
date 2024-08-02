@@ -1,11 +1,21 @@
 import React from 'react'
 import { Pagination } from '@mui/lab'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { Box } from '@mui/material'
 
 const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => {
+	const history = useHistory();
+
 	const handlePageChange = (event, value) => {
-		// Logic to handle page change
+		if (!isAdmin) {
+			if (keyword) {
+				history.push(`/search/${keyword}/page/${value}`);
+			} else {
+				history.push(`/page/${value}`);
+			}
+		} else {
+			history.push(`/admin/productlist/${value}`);
+		}
 	}
 
 	return (
@@ -15,21 +25,6 @@ const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => {
 					count={pages}
 					page={page}
 					onChange={handlePageChange}
-					renderItem={(item) => (
-						<Link
-							key={item.page}
-							to={
-								!isAdmin
-									? keyword
-										? `/search/${keyword}/page/${item.page}`
-										: `/page/${item.page}`
-									: `/admin/productlist/${item.page}`
-							}
-							style={{ textDecoration: 'none' }}
-						>
-							<Pagination.Item {...item} />
-						</Link>
-					)}
 				/>
 			</Box>
 		)

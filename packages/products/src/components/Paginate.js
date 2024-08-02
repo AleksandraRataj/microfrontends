@@ -1,31 +1,34 @@
-import React from 'react';
-import { Pagination, PaginationItem, Box } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import React from 'react'
+import { Pagination } from '@mui/lab'
+import { Link, useHistory } from 'react-router-dom'
+import { Box } from '@mui/material'
 
-const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => (
+const Paginate = ({ pages, page, isAdmin = false, keyword = '' }) => {
+	const history = useHistory();
+
+	const handlePageChange = (event, value) => {
+		if (!isAdmin) {
+			if (keyword) {
+				history.push(`/search/${keyword}/page/${value}`);
+			} else {
+				history.push(`/page/${value}`);
+			}
+		} else {
+			history.push(`/admin/productlist/${value}`);
+		}
+	}
+
+	return (
 		pages > 1 && (
-			<Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+			<Box display="flex" justifyContent="center" mt={2}>
 				<Pagination
 					count={pages}
 					page={page}
-					variant="outlined"
-					color="primary"
-					renderItem={(item) => (
-						<PaginationItem
-							component={RouterLink}
-							to={
-								!isAdmin
-									? keyword
-										? `/search/${keyword}/page/${item.page}`
-										: `/page/${item.page}`
-									: `/admin/products/${item.page}`
-							}
-							{...item}
-						/>
-					)}
+					onChange={handlePageChange}
 				/>
 			</Box>
 		)
 	)
+}
 
 export default Paginate;
